@@ -2,6 +2,7 @@ import { App, nextTick, Plugin } from "vue";
 import pluginConfig, { VueGtmQueryParams, VueGtmUseOptions } from "./config";
 import GtmPlugin from "./plugin";
 import { loadScript } from "./utils";
+import { gtmKey } from "./injectionSymbols";
 
 let gtmPlugin: GtmPlugin | undefined;
 const GTM_ID_PATTERN: RegExp = /^GTM\-[0-9A-Z]+$/;
@@ -44,6 +45,7 @@ function install(Vue: App, initConf: VueGtmUseOptions = { id: "" }): void {
   // Add to vue prototype and also from globals
   gtmPlugin = new GtmPlugin(pluginConfig.id);
   Vue.config.globalProperties.$gtm = gtmPlugin;
+  Vue.provide(gtmKey, gtmPlugin);
 
   // Load GTM script when enabled
   if (pluginConfig.enabled && pluginConfig.loadScript) {
@@ -132,9 +134,4 @@ const _default: VueGtmPlugin = { install };
 
 export default _default;
 
-/**
- * Returns gtm plugin to be used via composition api inside setup method
- */
-export function useGtm(): GtmPlugin | undefined {
-  return gtmPlugin;
-}
+export * from './useApi';
