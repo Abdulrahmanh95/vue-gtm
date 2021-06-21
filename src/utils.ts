@@ -20,7 +20,7 @@ export function logDebug(message: string, args: Record<string, any>): void {
  */
 export function loadScript(
   id: string,
-  config: Pick<VueGtmUseOptions, "onLoadCb" | "defer" | "compatibility" | "queryParams"> = {}
+  config: Pick<VueGtmUseOptions, "onLoadCb" | "defer" | "compatibility" | "queryParams"> = { onLoadCb: () => {} }
 ): void {
   const win = window,
     doc = document,
