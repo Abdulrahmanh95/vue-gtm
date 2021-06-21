@@ -11,7 +11,7 @@ const GTM_ID_PATTERN: RegExp = /^GTM\-[0-9A-Z]+$/;
  * @param Vue
  * @param initConf
  */
-function install(Vue: App, initConf: VueGtmUseOptions = { id: "" }): void {
+function install(Vue: App, initConf: VueGtmUseOptions = { id: "", onLoadCb: () => {} }): void {
   if (Array.isArray(initConf.id)) {
     for (const id of initConf.id) {
       if (!GTM_ID_PATTERN.test(id)) {
@@ -31,6 +31,7 @@ function install(Vue: App, initConf: VueGtmUseOptions = { id: "" }): void {
   pluginConfig.loadScript = initConf.loadScript;
   pluginConfig.defer = initConf.defer;
   pluginConfig.compatibility = initConf.compatibility;
+  pluginConfig.onLoadCb = initConf.onLoadCb;
   pluginConfig.queryParams = {
     ...pluginConfig.queryParams,
     ...initConf.queryParams,

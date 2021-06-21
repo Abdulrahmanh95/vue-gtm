@@ -51,6 +51,10 @@ export interface VueGtmUseOptions {
    * Whether or not call `trackView` in `Vue.nextTick`
    */
   trackOnNextTick?: boolean;
+  /**
+  * On load script callback
+  */
+  onLoadCb: ((this: GlobalEventHandlers, ev: Event) => any) | null;
 }
 
 // @ts-ignore
@@ -62,6 +66,7 @@ const config: VueGtmUseOptions = {
   loadScript: true,
   defer: false,
   compatibility: false,
+  onLoadCb: () => {},
 };
 
 export default config;

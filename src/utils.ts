@@ -16,11 +16,11 @@ export function logDebug(message: string, args: Record<string, any>): void {
  * Load GTM script tag
  *
  * @param id GTM ID
- * @param params query params object
+ * @param config query params object
  */
 export function loadScript(
   id: string,
-  config: Pick<VueGtmUseOptions, "defer" | "compatibility" | "queryParams"> = {}
+  config: Pick<VueGtmUseOptions, "onLoadCb" | "defer" | "compatibility" | "queryParams"> = {}
 ): void {
   const win = window,
     doc = document,
@@ -46,6 +46,7 @@ export function loadScript(
     ...(config.queryParams || {}),
   });
   script.src = `https://www.googletagmanager.com/gtm.js?${queryString}`;
+  script.onload = config.onLoadCb;
   doc.body.appendChild(script);
 }
 
