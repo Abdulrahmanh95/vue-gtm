@@ -20,7 +20,7 @@ export function logDebug(message: string, args: Record<string, any>): void {
  */
 export function loadScript(
   id: string,
-  config: Pick<VueGtmUseOptions, "onLoadCb" | "defer" | "compatibility" | "queryParams"> = { onLoadCb: () => {} }
+  config: Pick<VueGtmUseOptions, "defer" | "compatibility" | "queryParams"> = {  }
 ): void {
   const win = window,
     doc = document,
@@ -46,7 +46,10 @@ export function loadScript(
     ...(config.queryParams || {}),
   });
   script.src = `https://www.googletagmanager.com/gtm.js?${queryString}`;
-  script.onload = config.onLoadCb;
+  // @ts-ignore
+  config['onLoadCb'] = config['onLoadCb'] ? config['onLoadCb'] : () => {};
+  // @ts-ignore
+  script.onload = config['onLoadCb'];
   doc.body.appendChild(script);
 }
 
